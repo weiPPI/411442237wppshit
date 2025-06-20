@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>胃皮的末地寶藏</title>
+  <style>
+    body {
+      background: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                  linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                  linear-gradient(45deg, transparent 75%, #ccc 75%),
+                  linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 40px 40px;
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+      font-family: sans-serif;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-2/cur101.cur'), auto;
+      margin: 0;
+      overflow-x: hidden;
+      color: white;
+      position: relative;
+    }
+
+    header {
+      background: #DCB5FF;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 2px dotted #888;
+      font-family: sans-serif;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-box {
+      text-align: center;
+      margin: 20px auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-box input {
+      padding: 6px;
+      width: 250px;
+      font-size: 14px;
+      font-family: sans-serif;
+      border: 2px solid #4B0091;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #DCB5FF;
+      box-shadow: 0 0 10px rgba(75, 0, 145, 0.5);
+      transform: scale(1.05);
+    }
+
+    .desktop {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 60px 40px;
+      padding: 30px 60px;
+      justify-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .folder {
+      text-align: center;
+      padding: 15px;
+      cursor: pointer;
+      color: #4B0091;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .folder:hover {
+      transform: scale(1.1) rotate(2deg);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 16px rgba(75, 0, 145, 0.3);
+    }
+
+    .folder img {
+      width: 80px;
+      height: 80px;
+      transition: all 0.3s ease;
+    }
+
+    .folder:hover img {
+      filter: brightness(1.2) saturate(1.3);
+    }
+
+    .preview-window {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #2a0845, #4B0091);
+      color: white;
+      padding: 30px;
+      border: 4px double #DCB5FF;
+      border-radius: 15px;
+      z-index: 1000;
+      display: none;
+      font-family: sans-serif;
+      max-width: 80%;
+      max-height: 80%;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .preview-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+      margin: 20px 0;
+      justify-items: center;
+    }
+
+    .preview-content img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .preview-content img:hover {
+      transform: scale(1.05);
+    }
+
+    /* 電繪圖片特殊樣式 - 放大三分之一 */
+    .preview-content img.digital-art {
+      max-width: 400px;
+    }
+
+    .close-btn {
+      text-align: center;
+      margin-top: 20px;
+      cursor: pointer;
+      background: #DCB5FF;
+      color: #4B0091;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: #4B0091;
+      color: #DCB5FF;
+      transform: scale(1.1);
+    }
+
+    footer {
+      background: #DCB5FF;
+      padding: 20px;
+      text-align: center;
+      border-top: 2px dotted #888;
+      font-size: 14px;
+      font-family: sans-serif;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* iOS emoji 浮動米格魯 */
+    .floating-beagle {
+      position: fixed;
+      font-size: 35px;
+      animation: float 4s ease-in-out infinite;
+      z-index: 5;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+      user-select: none;
+    }
+
+    .floating-beagle:hover {
+      transform: scale(1.3);
+      animation-duration: 1s;
+      filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.5));
+    }
+
+    .floating-beagle-1 {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .floating-beagle-2 {
+      top: 60%;
+      right: 10%;
+      animation-delay: 2s;
+    }
+
+    .floating-beagle-3 {
+      top: 40%;
+      left: 50%;
+      animation-delay: 1s;
+      animation-direction: reverse;
+    }
+
+    /* iOS emoji 漂浮的星星 */
+    .floating-star {
+      position: fixed;
+      font-size: 30px;
+      animation: starFloat 5s ease-in-out infinite;
+      z-index: 5;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0px 0px 6px rgba(255, 215, 0, 0.6));
+      user-select: none;
+    }
+
+    .floating-star:hover {
+      transform: scale(1.4) rotate(180deg);
+      animation-duration: 1s;
+      filter: drop-shadow(0px 0px 12px rgba(255, 215, 0, 0.9));
+    }
+
+    .floating-star-1 {
+      top: 15%;
+      left: 80%;
+      animation-delay: 0.5s;
+    }
+
+    .floating-star-2 {
+      top: 70%;
+      left: 5%;
+      animation-delay: 2.5s;
+    }
+
+    .floating-star-3 {
+      top: 35%;
+      right: 30%;
+      animation-delay: 1.5s;
+      animation-direction: reverse;
+    }
+
+    /* iOS emoji 漂浮的茄子 */
+    .floating-eggplant {
+      position: fixed;
+      font-size: 32px;
+      animation: eggplantFloat 6s ease-in-out infinite;
+      z-index: 5;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      filter: drop-shadow(2px 2px 4px rgba(75, 0, 130, 0.4));
+      user-select: none;
+    }
+
+    .floating-eggplant:hover {
+      transform: scale(1.3) rotate(15deg);
+      animation-duration: 2s;
+      filter: drop-shadow(4px 4px 8px rgba(75, 0, 130, 0.7));
+    }
+
+    .floating-eggplant-1 {
+      top: 25%;
+      right: 15%;
+      animation-delay: 1s;
+    }
+
+    .floating-eggplant-2 {
+      top: 55%;
+      left: 25%;
+      animation-delay: 3s;
+    }
+
+    .floating-eggplant-3 {
+      top: 10%;
+      left: 60%;
+      animation-delay: 4s;
+      animation-direction: reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-15px) rotate(5deg); }
+      50% { transform: translateY(-30px) rotate(0deg); }
+      75% { transform: translateY(-15px) rotate(-5deg); }
+    }
+
+    @keyframes starFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+      25% { transform: translateY(-20px) rotate(90deg) scale(1.1); }
+      50% { transform: translateY(-35px) rotate(180deg) scale(1); }
+      75% { transform: translateY(-20px) rotate(270deg) scale(0.9); }
+    }
+
+    @keyframes eggplantFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      20% { transform: translateY(-12px) rotate(8deg); }
+      40% { transform: translateY(-25px) rotate(-5deg); }
+      60% { transform: translateY(-35px) rotate(3deg); }
+      80% { transform: translateY(-20px) rotate(-3deg); }
+    }
+
+    /* iOS emoji 大便噴射效果 */
+    .poop {
+      position: fixed;
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 999;
+      animation: poopSpray 2s ease-out forwards;
+      filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4));
+      user-select: none;
+    }
+
+    @keyframes poopSpray {
+      0% { 
+        opacity: 1; 
+        transform: scale(0) rotate(0deg); 
+      }
+      20% { 
+        opacity: 1; 
+        transform: scale(1.3) rotate(180deg); 
+      }
+      50% { 
+        opacity: 0.9; 
+        transform: scale(1) rotate(360deg); 
+      }
+      100% { 
+        opacity: 0; 
+        transform: scale(0.3) rotate(720deg) translateY(120px); 
+      }
+    }
+
+    /* 互動效果 */
+    .sparkle {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #FFD700, transparent);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 1s ease-out forwards;
+      z-index: 1001;
+    }
+
+    @keyframes sparkle {
+      0% { 
+        opacity: 1; 
+        transform: scale(0) rotate(0deg); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1) rotate(180deg); 
+      }
+      100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(360deg); 
+      }
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #4B0091, #DCB5FF);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 1002;
+      transform: translateX(300px);
+      transition: transform 0.5s ease;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    胃⽪被傳送到末地後，意外發現寶藏 (*≧∀≦*)ﾉ✧✧✧
+  </header>
+
+  <!-- iOS emoji 浮動米格魯 -->
+  <div class="floating-beagle floating-beagle-1" onclick="createSparkle(event)">🐶</div>
+  <div class="floating-beagle floating-beagle-2" onclick="createSparkle(event)">🐶</div>
+  <div class="floating-beagle floating-beagle-3" onclick="createSparkle(event)">🐶</div>
+
+  <!-- iOS emoji 漂浮的星星 -->
+  <div class="floating-star floating-star-1" onclick="createSparkle(event)">⭐</div>
+  <div class="floating-star floating-star-2" onclick="createSparkle(event)">⭐</div>
+  <div class="floating-star floating-star-3" onclick="createSparkle(event)">⭐</div>
+
+  <!-- iOS emoji 漂浮的茄子 -->
+  <div class="floating-eggplant floating-eggplant-1" onclick="createSparkle(event)">🍆</div>
+  <div class="floating-eggplant floating-eggplant-2" onclick="createSparkle(event)">🍆</div>
+  <div class="floating-eggplant floating-eggplant-3" onclick="createSparkle(event)">🍆</div>
+
+  <!-- 通知 -->
+  <div class="notification" id="notification">
+    歡迎來到胃皮的寶藏世界！✨
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" onkeyup="filterFolders()" placeholder="搜尋作品關鍵字...(ง •̀_•́)ง" onfocus="showNotification('開始探索寶藏吧！🔍')">
+  </div>
+
+  <div class="preview-window" id="preview">
+    <h3 id="preview-title"></h3>
+    <div id="preview-content" class="preview-content"></div>
+    <div id="preview-text"></div>
+    <div class="close-btn" onclick="closePreview()">關閉並繼續探索╰(*°▽°*)╯</div>
+  </div>
+
+  <div class="desktop" id="desktop"></div>
+
+  <footer>
+    魏言軒 ｜ 手機：0966215305 ｜ 伊媚兒：hiweipipi666@gmail.com ✧*｡٩(ˊᗜˋ*)و✧*｡
+  </footer>
+
+  <script>
+    const folderData = [
+      { 
+        name: '平面設計作品 (๑•̀ㅂ•́)و✧', 
+        link: 'https://drive.google.com/drive/folders/1hORc04I73YHVrDYcxAdFJ1k2Hwt51xE2?usp=drive_link', 
+        desc: '這裡展示平面設計相關作品，包含視覺設計、品牌識別、插畫創作等多元化設計作品 (*´ω`)人(´ω`*)',
+        images: [
+          'imeges/1.png']
+      },
+      { 
+        name: '3D建模 (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧', 
+        link: 'https://drive.google.com/drive/folders/1Rr2H5SzlAce6xgJvArPvJd1OLSxsGZBe?usp=drive_link', 
+        desc: '這裡展示3D模型、建模相關練習，從基礎幾何到複雜角色建模 o(〃＾▽＾〃)o',
+        images: [
+          'imeges/3.png']
+      },
+      { 
+        name: '動畫作品 ＼(≧▽≦)／', 
+        link: 'https://youtu.be/lbEt7_xD-B8?si=p5qAGgOuGEDD_tWk', 
+        desc: '動畫短片、動態設計，讓靜態設計活起來！ ヽ(•‿•)ノ',
+        images: [
+          'imeges/5.jpg']
+      },
+      { 
+        name: '電繪 (●' + "'◡'" + '●)ﾉ♥', 
+        link: 'https://drive.google.com/drive/folders/1_xuOdezNBUjwpTCqIKl7xICt6HE8OBaI?usp=drive_link', 
+        desc: '電繪插畫與角色設計，數位筆刷下的奇幻世界 ( ˘▽˘)っ♨',
+        images: [
+          'imeges/2.jpg'],
+        isDigitalArt: true  // 標記為電繪資料夾
+      },
+      { 
+        name: '傳統美術 (〃￣︶￣)人(￣︶￣〃)', 
+        link: 'https://drive.google.com/drive/folders/1siP9PornWdoAu32_MOXzLu617jHKxhlV?usp=drive_link', 
+        desc: '鉛筆素描、水彩、雕塑等作品，傳統媒材的溫度與質感 (*＾3＾)/~☆',
+        images: [
+          'imeges/4.jpg']
+      },
+      { 
+        name: '核心寶藏 ( •̀ ω •́ )✧', 
+        link: 'https://drive.google.com/drive/folders/1WlaelD1CFnNYs_N6DG5qWVH7viYvArub?usp=drive_link', 
+        desc: '這是最重要、最有個人風格的精華寶藏！✿ヽ(°▽°)ノ✿',
+        images: [
+          'imeges/6.jpg']
+      }
+    ];
+
+    const desktop = document.getElementById('desktop');
+    
+    function renderFolders(data) {
+      desktop.innerHTML = '';
+      data.forEach((f, index) => {
+        const div = document.createElement('div');
+        div.className = 'folder';
+        div.innerHTML = `
+          <img src="https://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-folder-blue-icon.png">
+          <div>${f.name}</div>
+        `;
+        div.onclick = (event) => {
+          openFolder(f);
+          createPoopSpray(event);
+          showNotification(`哇！${f.name.split('(')[0]} 寶藏被發現了！💩✨`);
+        };
+        desktop.appendChild(div);
+      });
+    }
+
+    function openFolder(folder) {
+      document.getElementById('preview-title').textContent = folder.name;
+      document.getElementById('preview-text').innerHTML = `
+        <p>${folder.desc}</p>
+        <p><a href='${folder.link}' target='_blank' style='color:#DCB5FF; text-decoration: none; font-weight: bold;'>🔗 查看完整作品集</a></p>
+      `;
+      
+      const contentDiv = document.getElementById('preview-content');
+      contentDiv.innerHTML = '';
+      
+      if (folder.images) {
+        folder.images.forEach((imgSrc, index) => {
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          img.alt = `${folder.name} 作品 ${index + 1}`;
+          
+          // 如果是電繪資料夾，加上特殊樣式類別
+          if (folder.isDigitalArt) {
+            img.classList.add('digital-art');
+          }
+          
+          img.onclick = (event) => {
+            createSparkle(event);
+            showNotification('點擊了作品圖片！✨');
+          };
+          img.onerror = function() {
+            console.log('圖片載入失敗：' + imgSrc);
+            this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="%23f0f0f0"/><text x="150" y="100" text-anchor="middle" fill="%234B0091" font-size="16">圖片載入中...</text></svg>';
+          };
+          contentDiv.appendChild(img);
+        });
+      }
+      
+      document.getElementById('preview').style.display = 'block';
+    }
+
+    function closePreview() {
+      document.getElementById('preview').style.display = 'none';
+      showNotification('繼續探索其他寶藏吧！🎒');
+    }
+
+    function filterFolders() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = folderData.filter(f => 
+        f.name.toLowerCase().includes(keyword) || 
+        f.desc.toLowerCase().includes(keyword)
+      );
+      renderFolders(filtered);
+      
+      if (keyword) {
+        showNotification(`找到 ${filtered.length} 個相關寶藏！🔍`);
+      }
+    }
+
+    function createSparkle(event) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = (event.clientX - 10) + 'px';
+      sparkle.style.top = (event.clientY - 10) + 'px';
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1000);
+    }
+
+    function createPoopSpray(event) {
+      // 創建多個大便emoji進行噴射
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          const poop = document.createElement('div');
+          poop.className = 'poop';
+          poop.textContent = '💩';
+          
+          // 隨機位置圍繞點擊點
+          const randomX = event.clientX + (Math.random() - 0.5) * 120;
+          const randomY = event.clientY + (Math.random() - 0.5) * 120;
+          
+          poop.style.left = randomX + 'px';
+          poop.style.top = randomY + 'px';
+          
+          // 隨機旋轉和大小
+          poop.style.transform = `rotate(${Math.random() * 360}deg) scale(${0.6 + Math.random() * 0.6})`;
+          
+          document.body.appendChild(poop);
+          
+          setTimeout(() => {
+            poop.remove();
+          }, 2000);
+        }, i * 80);
+      }
+    }
+
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // 初始化
+    renderFolders(folderData);
+    
+    // 歡迎訊息
+    setTimeout(() => {
+      showNotification('歡迎來到胃皮的寶藏世界！✨');
+    }, 1000);
+
+    // 隨機互動效果
+    setInterval(() => {
+      const elements = document.querySelectorAll('.floating-beagle, .floating-star, .floating-eggplant');
+      const randomElement = elements[Math.floor(Math.random() * elements.length)];
+      randomElement.style.animationDuration = '1s';
+      setTimeout(() => {
+        if (randomElement.classList.contains('floating-beagle')) {
+          randomElement.style.animationDuration = '4s';
+        } else if (randomElement.classList.contains('floating-star')) {
+          randomElement.style.animationDuration = '5s';
+        } else {
+          randomElement.style.animationDuration = '6s';
+        }
+      }, 1000);
+    }, 6000);
+  </script>
+</body>
+</html>
